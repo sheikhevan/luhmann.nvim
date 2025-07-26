@@ -3,9 +3,9 @@ local M = {}
 M.config = {
     zk_dir = vim.fn.expand("~/documents/zk"),
     templates = {
-        zettel = "# {{id}} {{title}}\n**Created:** {{date}}\n\n",
+        zettel = "# {{id}} {{title}}\n**created:** {{date}}\n**tags:** \n\n",
         literature =
-        "# {{id}} {{title}}\n**Created:** {{date}}\n\n\n\n## References\n\n"
+        "# {{id}} {{title}}\n**created:** {{date}}\n\n\n\n## references\n\n"
     }
 }
 
