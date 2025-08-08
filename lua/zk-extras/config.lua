@@ -1,21 +1,13 @@
 local M = {}
 
-local default_config = {
+M.defaults = {
     graph = {
         enabled = true,
-        show_orphans = true,
         show_tags = false,
+        show_orphans = true,
     }
 }
 
-local user_config = {}
-
-function M.setup(opts)
-    user_config = vim.tbl_deep_extend('force', default_config, opts or {})
-end
-
-function M.get()
-    return vim.tbl_deep_extend('force', default_config, user_config)
-end
+M.options = M.defaults
 
 return M
