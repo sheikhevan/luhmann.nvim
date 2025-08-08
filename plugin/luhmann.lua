@@ -1,4 +1,0 @@
-if vim.g.loaded_luhmann == 1 then
-    return
-end
-vim.g.loaded_luhmann = 1
