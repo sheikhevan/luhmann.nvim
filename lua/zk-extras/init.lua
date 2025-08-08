@@ -1,5 +1,5 @@
 local M = {}
 
-M.setup() {
+function M.setup()
     print("The code works!!!")
-}
+end
