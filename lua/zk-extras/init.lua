@@ -14,7 +14,9 @@ function M.setup(opts)
             desc = "Open zk-extras graph view"
         })
 
-        vim.api.nvim_create_user_command("ZkExtrasGraphClose", "<cmd>close<cr>", {
+        vim.api.nvim_create_user_command("ZkExtrasGraphClose", function()
+            graph.close_graph()
+        end, {
             desc = "Close zk-extras graph view"
         })
     end

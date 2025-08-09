@@ -1,5 +1,7 @@
 local M = {}
 
+local current_graph_win = nil
+
 local function get_graph_json()
     local result = vim.system({ 'zk', 'graph', '--format=json' }, { text = true }):wait()
 
@@ -72,6 +74,8 @@ local function make_graph_buffer(notes, links)
     vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
     vim.api.nvim_set_option_value('buftype', 'nofile', { buf = buf })
 
+    current_graph_win = win
+
     return buf, win
 end
 
@@ -84,6 +88,15 @@ function M.open_graph()
     local buf, win = make_graph_buffer(graph_json.notes, graph_json.links)
 
     return buf, win
+end
+
+function M.close_graph()
+    if current_graph_win and vim.api.nvim_win_is_valid(current_graph_win) then
+        vim.api.nvim_win_close(current_graph_win, true)
+        current_graph_win = nil
+    else
+        vim.notify("Graph is not open", vim.log.levels.WARN)
+    end
 end
 
 return M
