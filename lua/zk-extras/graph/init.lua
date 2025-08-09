@@ -53,8 +53,8 @@ local function make_graph_buffer(notes, links)
 
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
-    local width = math.floor(vim.o.columns * 0.8)
-    local height = math.floor(vim.o.lines * 0.8)
+    local width = math.floor(vim.o.columns * 0.95)
+    local height = math.floor(vim.o.lines * 0.95)
 
     local col = math.floor((vim.o.columns - width) / 2)
     local row = math.floor((vim.o.lines - height) / 2)
@@ -68,6 +68,9 @@ local function make_graph_buffer(notes, links)
         col = col,
         relative = "editor"
     })
+
+    vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
+    vim.api.nvim_set_option_value('buftype', 'nofile', { buf = buf })
 
     return buf, win
 end
