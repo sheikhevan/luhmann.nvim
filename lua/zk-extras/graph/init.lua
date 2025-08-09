@@ -19,15 +19,33 @@ end
 
 function M.open_graph()
     local graph_json = get_graph_json()
-    if graph_json then
-        for _, note in ipairs(graph_json.notes or {}) do
-            print("Node: ", note.id, note.title)
-        end
+    if not graph_json then
+        return
+    end
 
-        for _, link in ipairs(graph_json.links or {}) do
-            print("Link: ", link.source, "->", link.target)
+    local notes_by_id = {}
+    for _, note in ipairs(graph_json.notes) do
+        local note_id = note.metadata and note.metadata.id
+        if note_id then
+            notes_by_id[note_id] = note
         end
     end
+
+    for i, note in ipairs(graph_json.notes or {}) do
+        local note_id = note.metadata and note.metadata.id or "No ID"
+        print(string.format("[%d] %s (%s)", i, note.title or "No Title", note_id))
+    end
+
+    for i, link in ipairs(graph_json.links or {}) do
+        local source_note = notes_by_id[link.sourceId]
+        local target_note = notes_by_id[link.targetId]
+        local source_title = source_note and source_note.title or ("ID: " .. (link.sourceId or "Unknown"))
+        local target_title = target_note and target_note.title or ("ID: " .. (link.targetId or "Unknown"))
+
+        print(string.format("[%d] %s -> %s", i, source_title, target_title))
+    end
+
+    print(string.format("\nTotal: %d notes, %d links", #graph_json.notes, #graph_json.links))
 end
 
 return M
