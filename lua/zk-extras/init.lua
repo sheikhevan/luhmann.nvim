@@ -7,7 +7,12 @@ function M.setup(opts)
     M.config = user_config
 
     if user_config.graph.enabled then
-        require('zk-extras.graph')
+        local graph = require('zk-extras.graph')
+        vim.api.nvim_create_user_command("ZkExtrasGraphOpen", function()
+            graph.open_graph()
+        end, {
+            desc = "Open zk-extras graph view"
+        })
     end
 end
 
