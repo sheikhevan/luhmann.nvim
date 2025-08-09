@@ -17,6 +17,28 @@ local function get_graph_json()
     return nil
 end
 
+local function make_graph_buffer(notes, links)
+    local buf = vim.api.nvim_create_buf(false, true)
+
+    local nodes = function()
+        for _, note in ipairs(notes or {}) do
+            local note_id = note.metadata and note.metadata.id or "ID not found"
+            return string.format("[%s] %s", note_id, note.title or "Title not found")
+        end
+    end
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+        nodes()
+    })
+
+    local win = vim.api.nvim_open_win(buf, true, {
+        style = "minimal",
+        border = "rounded"
+    })
+
+    return buf
+end
+
 function M.open_graph()
     local graph_json = get_graph_json()
     if not graph_json then
@@ -46,6 +68,8 @@ function M.open_graph()
     end
 
     print(string.format("\nTotal: %d notes, %d links", #graph_json.notes, #graph_json.links))
+
+    make_graph_buffer(graph_json.notes, graph_json.links)
 end
 
 return M
