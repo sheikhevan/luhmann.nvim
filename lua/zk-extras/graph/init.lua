@@ -20,8 +20,8 @@ end
 function M.open_graph()
     local graph_json = get_graph_json()
     if graph_json then
-        for _, node in ipairs(graph_json.nodes or {}) do
-            print("Node: ", node.id, node.title)
+        for _, note in ipairs(graph_json.notes or {}) do
+            print("Node: ", note.id, note.title)
         end
 
         for _, link in ipairs(graph_json.links or {}) do
